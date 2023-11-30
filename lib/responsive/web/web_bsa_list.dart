@@ -14,48 +14,50 @@ class WebBSAListPage extends StatefulWidget {
 class _WebBSAListPageState extends State<WebBSAListPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Saira')),
-      home: Column(
-        children: <Widget>[
-          Expanded(flex: 1, child: myWebTitleContainer),
-          Expanded(
-            flex: 6,
-            child: Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 3,
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
-                    ),
-                  ]),
-              padding: const EdgeInsets.all(5.0),
-              child: Center(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Image.asset(
-                        'assets/images/home.gif',
-                        // fit: BoxFit.fill,
+    return Scaffold(
+      body: MaterialApp(
+        theme: ThemeData(
+            textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Saira')),
+        home: Column(
+          children: <Widget>[
+            Expanded(flex: 1, child: myWebTitleContainer),
+            Expanded(
+              flex: 6,
+              child: Container(
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
                       ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: callApiFutureBuilder(),
-                    )
-                  ],
+                    ]),
+                padding: const EdgeInsets.all(5.0),
+                child: Center(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Image.asset(
+                          'images/home.gif',
+                          // fit: BoxFit.fill,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: callApiFutureBuilder(),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

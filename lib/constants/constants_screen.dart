@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
 
 const primaryColor = Color(0xFF407BFF);
 const secondaryColor = Color(0xFF2D56B3);
@@ -13,15 +11,15 @@ var myAppBar = AppBar(
   backgroundColor: primaryColor,
 );
 
-var myDrawer = Drawer(
+var myDrawer = const Drawer(
   backgroundColor: myBackgroundColor,
   child: Column(
-    children: const [
+    children: [
       DrawerHeader(
-        child: Text(''),
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/rocket_logo.png"), fit: BoxFit.fill)),
+        child: Text(''),
       ),
       ListTile(
         iconColor: mytextColor,
@@ -32,6 +30,7 @@ var myDrawer = Drawer(
           child: Text(
             'Home',
             style: TextStyle(
+                fontFamily: 'Saira',
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
                 decoration: TextDecoration.none),
@@ -47,6 +46,7 @@ var myDrawer = Drawer(
         title: Text(
           'Status',
           style: TextStyle(
+              fontFamily: 'Saira',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               decoration: TextDecoration.none),
@@ -61,6 +61,7 @@ var myDrawer = Drawer(
         title: Text(
           'Report',
           style: TextStyle(
+              fontFamily: 'Saira',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               decoration: TextDecoration.none),
@@ -75,6 +76,7 @@ var myDrawer = Drawer(
         title: Text(
           'Score Card',
           style: TextStyle(
+              fontFamily: 'Saira',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               decoration: TextDecoration.none),
@@ -89,6 +91,7 @@ var myDrawer = Drawer(
         title: Text(
           'Logout',
           style: TextStyle(
+              fontFamily: 'Saira',
               fontWeight: FontWeight.bold,
               fontSize: 16,
               decoration: TextDecoration.none),
@@ -100,18 +103,21 @@ var myDrawer = Drawer(
 );
 
 var myContentTextStyle = TextStyle(
+    fontFamily: 'Saira',
     color: textTitleColor,
     fontWeight: FontWeight.normal,
     fontSize: 14,
     decoration: TextDecoration.none);
 
 var myTitleTextStyle = TextStyle(
+    fontFamily: 'Saira',
     color: textTitleColor,
     fontWeight: FontWeight.bold,
     fontSize: 14,
     decoration: TextDecoration.none);
 
 var myCardTitleTextStyle = TextStyle(
+    fontFamily: 'Saira',
     color: textTitleColor,
     fontWeight: FontWeight.normal,
     fontSize: 12,
@@ -129,7 +135,7 @@ var myWebTitleContainer = Container(
         child: SizedBox(
           height: 100,
           width: 100,
-          child: Image.asset('assets/images/rocket_logo.png'),
+          child: Image.asset('images/rocket_logo.png'),
         ),
       ),
       Row(
@@ -204,26 +210,3 @@ class MenuItem extends StatelessWidget {
     );
   }
 }
-
-
-var controller = WebViewController()
-  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-  ..setBackgroundColor(const Color(0x00000000))
-  ..setNavigationDelegate(
-    NavigationDelegate(
-      onProgress: (int progress) {
-// Update loading bar.
-      },
-      onPageStarted: (String url) {},
-      onPageFinished: (String url) {},
-      onWebResourceError: (WebResourceError error) {},
-      onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith('https://www.youtube.com/')) {
-          return NavigationDecision.prevent;
-        }
-        return NavigationDecision.navigate;
-      },
-    ),
-  )
-  ..loadRequest(Uri.parse('https://flutter.dev'));
-
