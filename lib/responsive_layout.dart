@@ -4,6 +4,7 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget mobileScaffold;
   final Widget webScaffold;
 
+
   const ResponsiveLayout(
       {super.key, required this.mobileScaffold,
       required this.webScaffold});

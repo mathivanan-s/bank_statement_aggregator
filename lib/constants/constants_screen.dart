@@ -5,7 +5,7 @@ const secondaryColor = Color(0xFF2D56B3);
 const myBackgroundColor = Color(0xFFCCD3E8);
 const textTitleColor = Color(0xFF2C2D2D);
 const textSubTitleColor = Color(0xFF3F3D3D);
-const mytextColor = Color(0xFF474749);
+const mytextColor = Color(0xFF5A5A5D);
 
 var myAppBar = AppBar(
   backgroundColor: primaryColor,
