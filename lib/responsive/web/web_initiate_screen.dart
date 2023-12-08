@@ -48,7 +48,7 @@ class _WebInitiateScreenState extends State<WebInitiateScreen> {
 }
 
 class callApiFutureBuilder extends StatelessWidget {
-  const callApiFutureBuilder({super.key});
+  const callApiFutureBuilder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +59,10 @@ class callApiFutureBuilder extends StatelessWidget {
         future: apiService.fetchBSAModel("2"),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            final UserModel userModel = snapshot.data!;
+            UserModel? userModel = snapshot.data as UserModel?;
             return Center(
               child: SetData(
-                userModel: userModel,
+                userModel: userModel!,
               ),
             );
           } else {
@@ -77,7 +77,7 @@ class callApiFutureBuilder extends StatelessWidget {
 class SetData extends StatefulWidget {
   final UserModel userModel;
 
-  const SetData({super.key, required this.userModel});
+  const SetData({Key? key, required this.userModel}) : super(key: key);
 
   @override
   State<SetData> createState() => _SetDataState();
@@ -90,6 +90,13 @@ class _SetDataState extends State<SetData> {
     path: 'KuberaVault/insights/gl/88ef0856-1a75-4994-9f60-6eb150b926ce',
   );
 
+  String _filePath = '';
+  String _fileName = '';
+  String bsaStatus = 'Not Initiated';
+  bool proceedBtn = false;
+  bool processState = false;
+  bool isLoading = false;
+  List<String> fileNames = [];
   double findProgress = 0.0;
 
   void simulateProgress() {
@@ -211,8 +218,8 @@ class _SetDataState extends State<SetData> {
                                           alignment: Alignment.center,
                                           height: 25,
                                           width: 100,
-                                          child: const Text(
-                                            'Not Initiated',
+                                          child: Text(
+                                            bsaStatus,
                                             style:
                                                 TextStyle(color: Colors.orange),
                                           ),
@@ -340,8 +347,246 @@ class _SetDataState extends State<SetData> {
                         child: Column(
                           children: [
                             ElevatedButton(
-                              onPressed: () => launchURL(url),
+                              // onPressed: () => launchURL(url),
+                              onPressed: () {
+                                onInitiate();
+                                setState(() {
+                                  bsaStatus = 'Initiated';
+                                });
+                              },
                               child: const Text('Proceed'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      if (isLoading) const LinearProgressIndicator (
+                        semanticsLabel: 'Loading...',
+                        color: Colors.red,
+                        minHeight: 2,
+                      ),
+                      const SizedBox(height: 15),
+                      Visibility(
+                        visible: processState,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "   Account 1:",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.none),
+                            ),
+                            Card(
+                              elevation: 5,
+                              shadowColor: Colors.grey.shade100,
+                              color: Colors.white,
+                              margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: Container(
+                                padding: const EdgeInsets.all(5),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Account Holder Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                'Mathivanan S',
+                                                style: const TextStyle(
+                                                    color: textTitleColor,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 16,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      height: 2,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Account Number :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "355456892398",
+                                                style: myContentTextStyle,
+                                              ),
+                                              Text(
+                                                "IFSC CODE :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "UCI000998",
+                                                style: myContentTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Bank Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "Axis Bank",
+                                                style: myContentTextStyle,
+                                              ),
+                                              Text(
+                                                "Branch Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "Pallikaranai",
+                                                style: myContentTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              "   Account 2:",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                  decoration: TextDecoration.none),
+                            ),
+                            Card(
+                              elevation: 5,
+                              shadowColor: Colors.grey.shade100,
+                              color: Colors.white,
+                              margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                              child: Container(
+                                padding: const EdgeInsets.all(5),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Account Holder Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                'Mathivanan S',
+                                                style: const TextStyle(
+                                                    color: textTitleColor,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 16,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      height: 2,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Account Number :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "9054566642398",
+                                                style: myContentTextStyle,
+                                              ),
+                                              Text(
+                                                "IFSC CODE :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "ICICI0002",
+                                                style: myContentTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Bank Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "ICICI Bank",
+                                                style: myContentTextStyle,
+                                              ),
+                                              Text(
+                                                "Branch Name :",
+                                                style: myCardTitleTextStyle,
+                                              ),
+                                              Text(
+                                                "Medavakkam",
+                                                style: myContentTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -357,10 +602,18 @@ class _SetDataState extends State<SetData> {
     );
   }
 
-  String _filePath = '';
-  String _fileName = '';
-  bool proceedBtn = false;
-  List<String> fileNames = [];
+  void onInitiate() {
+    setState(() {
+      isLoading = true;
+    });
+    Future.delayed(const Duration(seconds: 5), () {
+      setState(() {
+        isLoading = false;
+        bsaStatus = 'Completed';
+        processState = true;
+      });
+    });
+  }
 
   Future<void> _pickFile() async {
     fileNames = [];
